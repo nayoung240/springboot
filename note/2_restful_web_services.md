@@ -30,6 +30,8 @@
 - DispatcherServlet은 Spring MVC의 핵심으로써 프론트 컨트롤러 역할을 담당한다.
 - client ⇄ DispatcherServlet ⇄ HandlerMapping (@GetMapping, @PostMapping) → Constroller
 
+<br>
+
 ## User라는 도메인에서 CRUD를 구성해보는 예제
 
 | Method | URL                              |
@@ -40,5 +42,42 @@
 | DELETE | http://localhost:8080/users/{id} |
 | GET    | http://localhost:8080/users      |
 
+<br>
+
 ## Server
 UserController ⇄ UserServiceLogic ⇄ UserStoreLogic
+
+<br>
+
+### pom.xml
+1. spring initializer를 이용해서 작성
+    - Dependencies: springweb, lombok
+2. [maven repository](https://mvnrepository.com/) 에서 gson 라이브러리 추가
+   - Dependencies: gson
+
+### 패키지
+- io.namusori.rest
+  - entity
+  - service
+  - store
+  - controller
+
+### UserRestApp.java
+- @SpringBootApplication
+```java
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class UserRestApp {
+    public static void main(String[] args) {
+        SpringApplication.run(UserRestApp.class, args);
+    }
+}
+```
+
+### entity/User.java
+- @Getter
+- @Setter
+- @ToString
+- new Gson().toJson(user)
