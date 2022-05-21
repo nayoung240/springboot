@@ -23,14 +23,14 @@
 
 <br>
 
-# RESTful Service with Spring Boot 구현
-
 ## Spring MVC의 구조
 - Spring MVC는 프론트 컨트롤러 패턴을 기초로한 아키텍처를 가진다.
 - DispatcherServlet은 Spring MVC의 핵심으로써 프론트 컨트롤러 역할을 담당한다.
 - client ⇄ DispatcherServlet ⇄ HandlerMapping (@GetMapping, @PostMapping) → Constroller
 
 <br>
+
+# RESTful Service 구현하기
 
 ## User라는 도메인에서 CRUD를 구성해보는 예제
 
@@ -47,6 +47,8 @@
 ## Server
 UserController ⇄ UserServiceLogic ⇄ UserStoreLogic
 
+![diagram](./img/2_class_diagram.PNG)
+
 <br>
 
 ### pom.xml
@@ -55,12 +57,20 @@ UserController ⇄ UserServiceLogic ⇄ UserStoreLogic
 2. [maven repository](https://mvnrepository.com/) 에서 gson 라이브러리 추가
    - Dependencies: gson
 
-### 패키지
+### 디렉터리 구조
 - io.namusori.rest
   - entity
+    - User.java
   - service
+    - logic
+      - UserServiceLogic.java
+    - UserService.java (Interface)
   - store
+    - logic
+      - UserStoreLogic.java
+    - UserStore.java (Interface)
   - controller
+  - UserRestApp.java
 
 ### UserRestApp.java
 - @SpringBootApplication
@@ -81,3 +91,16 @@ public class UserRestApp {
 - @Setter
 - @ToString
 - new Gson().toJson(user)
+
+### store/logic/UserStoreLogic.java
+- @Repository
+
+### service/logic/UserServiceLogic.java
+- @Service
+
+<br>
+
+## DI 적용 방법
+1. @RequiredArgsConstructor
+2. @AutoWired
+3. 생성자
