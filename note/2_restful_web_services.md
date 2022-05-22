@@ -51,13 +51,15 @@ UserController ⇄ UserServiceLogic ⇄ UserStoreLogic
 
 <br>
 
-### pom.xml
+## pom.xml
 1. spring initializer를 이용해서 작성
     - Dependencies: springweb, lombok
 2. [maven repository](https://mvnrepository.com/) 에서 gson 라이브러리 추가
    - Dependencies: gson
 
-### 디렉터리 구조
+<br>
+
+## main 디렉터리 구조
 - io.namusori.rest
   - entity
     - User.java
@@ -104,3 +106,21 @@ public class UserRestApp {
 1. @RequiredArgsConstructor
 2. @AutoWired
 3. 생성자
+
+<br>
+
+# Junit5기반 단위테스트
+
+## test 디렉터리 구조
+- io.namusori.rest
+  - service
+    - logic
+      - UserServiceLogicTest.java
+
+### service/logic/UserServiceLogicTest.java
+- @SpringBootTest
+- @BeforeEach : 테스트를 위한 데이터 세팅
+- @Autowired
+  > 단위테스트 시 DI 적용 방법은 `@Autowired` 를 사용해야 한다.
+- @Test : 단위 테스트
+- @AfterEach : 테스트 이후 데이터 초기화

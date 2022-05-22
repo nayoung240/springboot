@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class UserServiceLogic implements UserService {
-    private UserStore userStore;
+    private final UserStore userStore;
 
     @Override
     public String register(User newUser) {
