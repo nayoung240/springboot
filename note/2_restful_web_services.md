@@ -28,19 +28,21 @@
 - DispatcherServlet은 Spring MVC의 핵심으로써 프론트 컨트롤러 역할을 담당한다.
 - client ⇄ DispatcherServlet ⇄ HandlerMapping (@GetMapping, @PostMapping) → Constroller
 
+![diagram](./img/9_flow.png)
+
 <br>
 
 # RESTful Service 구현하기
 
 ## User라는 도메인에서 CRUD를 구성해보는 예제
 
-| Method | URL                              |
-|--------|----------------------------------|
-| POST   | http://localhost:8080/users      |
-| GET    | http://localhost:8080/users/{id} |
-| PUT    | http://localhost:8080/users/{id} |
-| DELETE | http://localhost:8080/users/{id} |
-| GET    | http://localhost:8080/users      |
+| Method | URL                               |
+|--------|-----------------------------------|
+| POST   | http://localhost:8080/users       |
+| GET    | http://localhost:8080/user/{id}   |
+| PUT    | http://localhost:8080/user/{id}   |
+| DELETE | http://localhost:8080/user/{id}   |
+| GET    | http://localhost:8080/users       |
 
 <br>
 
@@ -72,9 +74,11 @@ UserController ⇄ UserServiceLogic ⇄ UserStoreLogic
       - UserStoreLogic.java
     - UserStore.java (Interface)
   - controller
+    - UserController.java
   - UserRestApp.java
 
 ### UserRestApp.java
+서버 실행 소스
 - @SpringBootApplication
 ```java
 import org.springframework.boot.SpringApplication;
@@ -100,9 +104,26 @@ public class UserRestApp {
 ### service/logic/UserServiceLogic.java
 - @Service
 
+### UserController.java
+사용자 요청을 DispatcherServlet이 받아서 userController로 해당 요청을 위임하고 그에대한 처리를 함.
+
+- @RestController : json으로 통신할 수 있도록 도와주는 라이브러리
+- @RequiredArgsConstructor
+
+#### POST http://localhost:8080/users
+- @PostMapping("/users")
+- @RequestBody
+
+#### GET http://localhost:8080/user/{id}
+- @GetMapping("/user/{id}")
+- @PathVariable
+
+#### GET http://localhost:8080/users
+- @GetMapping("/users")
+
 <br>
 
-## DI 적용 방법
+## DI 적용 방법 (의존성 주입)
 1. @RequiredArgsConstructor
 2. @AutoWired
 3. 생성자
@@ -124,3 +145,9 @@ public class UserRestApp {
   > 단위테스트 시 DI 적용 방법은 `@Autowired` 를 사용해야 한다.
 - @Test : 단위 테스트
 - @AfterEach : 테스트 이후 데이터 초기화
+
+<br>
+
+# Insomnia 테스트
+
+![diagram](./img/9_insomnia.png)
