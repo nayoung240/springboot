@@ -121,6 +121,12 @@ public class UserRestApp {
 #### GET http://localhost:8080/users
 - @GetMapping("/users")
 
+#### PUT http://localhost:8080/users
+- @PutMapping("/users")
+
+#### DELETE http://localhost:8080/user/{id}
+- @DeleteMapping("/user/{id}")
+
 <br>
 
 ## DI 적용 방법 (의존성 주입)
@@ -137,14 +143,71 @@ public class UserRestApp {
   - service
     - logic
       - UserServiceLogicTest.java
+  - controller
+    - UserControllerTest.java
 
 ### service/logic/UserServiceLogicTest.java
+- 수동 생성
 - @SpringBootTest
 - @BeforeEach : 테스트를 위한 데이터 세팅
 - @Autowired
   > 단위테스트 시 DI 적용 방법은 `@Autowired` 를 사용해야 한다.
 - @Test : 단위 테스트
 - @AfterEach : 테스트 이후 데이터 초기화
+
+### controller/UserControllerTest.java
+- junit 자동 생성 (Alt+Enter)
+- @SpringBootTest
+- @AutoConfigureMockMvc
+- private MockMvc mockMvc
+  - MockMvcRequestBuilders.post
+  - MockMvcResultHandlers.print
+  - MockMvcResultMatchers.content
+  - MockMvcResultMatchers.status
+- private ObjectMapper objectMapper
+  - objectMapper.writeValueAsString(sample); // json
+
+print 결과
+```aidl
+MockHttpServletRequest:
+      HTTP Method = POST
+      Request URI = /users
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Accept:"application/json", Content-Length:"86"]
+             Body = {"id":"5de8edc0-4d8b-46ec-92e4-55e6637bbefe","name":"Park","email":"park@namusori.io"}
+    Session Attrs = {}
+
+Handler:
+             Type = io.namusori.rest.controller.UserController
+           Method = io.namusori.rest.controller.UserController#register(User)
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 200
+    Error message = null
+          Headers = [Content-Type:"application/json", Content-Length:"36"]
+     Content type = application/json
+             Body = 5de8edc0-4d8b-46ec-92e4-55e6637bbefe
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+
+종료 코드 0(으)로 완료된 프로세스
+```
 
 <br>
 
