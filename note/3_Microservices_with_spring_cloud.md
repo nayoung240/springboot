@@ -52,6 +52,85 @@
 - 환경별로 설정을 분리할 수 있다.
 - 환경에 따른 설정 정보는 profile과 labe로 구분 가능하다.
 
-![diagram](./img/3_springcloud.PNG)
+![diagram](./img/3_springcloudconfig.PNG)
 
+# config-server
+## main 디렉터리 구조
+- io.namusori.config.server
+   - ConfigServer.java
+- resources
+  - application.yml
+
+### pom.xml
+spring initializer를 이용해서 작성
+- Dependencies: Config Server
+
+### ConfigServer.java
+: 기본적인 springboot application 설정
+- @SpringBootApplication
+- @EnableConfigServer
+
+### application.yml
+```aidl
+server:
+  port: 9900
+
+spring:
+  cloud:
+    server:
+      git:
+        uri: https://gitlab.com/kkjin/namoosori-config.git
+```
+
+### git 저장소에 설정정보들 만들기
+- configtest-dev.yml
+- configtest-prod.yml
+
+- http://localhost:9900/configtest/prod
+- http://localhost:9900/configtest/dev
+
+# config-client
+
+## main 디렉터리 구조
+- io.namusori.config.client
+  - ConfigClientApp.java
+  - controller
+    - ConfigClientController.java
+- resources
+  - application.yml
+
+### pom.xml
+spring initializer를 이용해서 작성
+- Dependencies: Config Client, Spring Boot Actuator
+
+### application.yml
+```aidl
+server:
+  port: 8088
+
+---
+
+spring:
+  application:
+    name: configtest-dev
+  config:
+    import: optional:configserver:http://localhost:9900
+
+---
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+```
+
+### ConfigClientApp.java
+- @SpringBootApplication
+
+### ConfigClientController.java
+- @RestController
+- @RefreshScope
+- @Value("${test.str}")
+- @GetMapping("/test")
 

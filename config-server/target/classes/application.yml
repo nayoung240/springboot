@@ -1,0 +1,8 @@
+server:
+  port: 9900
+
+spring:
+  cloud:
+    server:
+      git:
+        uri: https://gitlab.com/kkjin/namoosori-config.git
